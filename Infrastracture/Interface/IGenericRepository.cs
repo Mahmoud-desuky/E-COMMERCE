@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using ECommerse.Core.Entities;
+using ECommerce.Core.Entities;
 
-namespace ECommerse.Infrastracture.Interface
+namespace ECommerce.Infrastructure.Interface
 {
-    public interface IGenaricRepository<T> where T : BaseEntity
+    public interface IGenericRepository<T> where T : BaseEntity
     {
 
         Task<T> GetByIdAsync(int id);

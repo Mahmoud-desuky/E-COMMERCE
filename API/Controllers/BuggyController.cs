@@ -1,9 +1,9 @@
 using AutoMapper.Configuration.Annotations;
-using ECommerse.API.Errors;
-using ECommerse.Infrastracture.Data;
+using ECommerce.API.Errors;
+using ECommerce.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-namespace ECommerse.API.Controllers
+namespace ECommerce.API.Controllers
 {
     public class BuggyController : BaseApiController
     {

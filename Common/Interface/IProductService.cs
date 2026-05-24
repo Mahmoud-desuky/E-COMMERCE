@@ -1,9 +1,9 @@
 
-using ECommerse.Common.DTOs;
-using ECommerse.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Core.Entities;
 
 
-namespace ECommerse.Common.Interface
+namespace ECommerce.Common.Interface
 {
     public interface IProductService
     {

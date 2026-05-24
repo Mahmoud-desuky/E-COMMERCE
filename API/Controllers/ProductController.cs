@@ -1,17 +1,17 @@
-﻿using ECommerse.Core.Entities;
-using ECommerse.Infrastracture.Interface;
+﻿using ECommerce.Core.Entities;
+using ECommerce.Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ECommerse.Common.DTOs;
-using ECommerse.Common.Interface;
+using ECommerce.Common.DTOs;
+using ECommerce.Common.Interface;
 
-namespace ECommerse.API.Controllers
+namespace ECommerce.API.Controllers
 {
     public class ProductController : BaseApiController
     {
-        private readonly IGenaricRepository<Product> _productRepository;
+        private readonly IGenericRepository<Product> _productRepository;
         private readonly IProductService _productService;
-        public ProductController(IGenaricRepository<Product> productRepository,
+        public ProductController(IGenericRepository<Product> productRepository,
         IProductService productService)
             {
                 _productService=productService;

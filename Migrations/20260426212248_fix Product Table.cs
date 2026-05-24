@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ECommerse.Migrations
+namespace ECommerce.Migrations
 {
     /// <inheritdoc />
     public partial class fixProductTable : Migration

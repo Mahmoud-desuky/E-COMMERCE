@@ -1,16 +1,16 @@
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Core.Entities;
-using ECommerse.Common.DTOs;
-using ECommerse.Common.Interface;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Common.Interface;
 
 
-namespace ECommerse.Common.Logic
+namespace ECommerce.Common.Logic
 {
     public class ProductTypeService : IProductTypeService
     {
-        private readonly IGenaricRepository<ProductType> _productTypeRepository;
+        private readonly IGenericRepository<ProductType> _productTypeRepository;
 
-        public ProductTypeService(IGenaricRepository<ProductType> productTypeRepository)
+        public ProductTypeService(IGenericRepository<ProductType> productTypeRepository)
         {
             _productTypeRepository=productTypeRepository;
         }

@@ -1,12 +1,12 @@
-using ECommerse.API.Controllers;
-using ECommerse.API.Errors;
-using ECommerse.Core.Entities.Identity;
+using ECommerce.API.Controllers;
+using ECommerce.API.Errors;
+using ECommerce.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ECommerse.Common.DTOs;
-using ECommerse.API.Exceptions;
-using ECommerse.API.Models;
-using ECommerse.Infrastracture.Interface;
+using ECommerce.Common.DTOs;
+using ECommerce.API.Exceptions;
+using ECommerce.API.Models;
+using ECommerce.Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 namespace E_COMMERSE.API.Controllers
@@ -37,7 +37,7 @@ namespace E_COMMERSE.API.Controllers
             var res=new UserDTO
             {
                 Email = user.Email,
-                Token = _tokenService.CreateteToken(user),
+                Token = _tokenService.CreateToken(user),
                 Address= user.Address.ToString(),
                 FullName = user.UserName
             };
@@ -62,10 +62,10 @@ namespace E_COMMERSE.API.Controllers
             if (!result.Succeeded)
                  throw new UnAuthorizedException();
             
-            var res=new UserDTO
+            var res = new UserDTO
             {
                 Email = user.Email,
-                Token = _tokenService.CreateteToken(user),
+                Token = _tokenService.CreateToken(user),
                 Address= user.Address.ToString(),
                 FullName = user.UserName
             };
@@ -86,10 +86,10 @@ namespace E_COMMERSE.API.Controllers
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) 
                 return BadRequest(new ApiResponse(400));
-            var res=new UserDTO
+            var res = new UserDTO
             {
                 Email = user.Email,
-                Token = _tokenService.CreateteToken(user),
+                Token = _tokenService.CreateToken(user),
                 Address= user.Address.ToString(),
                 FullName = user.UserName
             };

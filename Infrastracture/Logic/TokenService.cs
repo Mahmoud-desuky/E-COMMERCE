@@ -1,11 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ECommerse.Core.Entities.Identity;
-using ECommerse.Infrastracture.Interface;
+using ECommerce.Core.Entities.Identity;
+using ECommerce.Infrastructure.Interface;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ECommerse.Infrastracture.Logic
+namespace ECommerce.Infrastructure.Logic
 {
     public class TokenService : ITokenService
     {
@@ -40,7 +40,7 @@ namespace ECommerse.Infrastracture.Logic
             var tokenKey = GetRequiredNonEmptyConfigValue(_config, "Token:Key");
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
         }
-        public string CreateteToken(User user)
+        public string CreateToken(User user)
         {
             var Claims = new List<Claim>
             {

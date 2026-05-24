@@ -1,17 +1,16 @@
 ﻿using System.Linq.Expressions;
-using ECommerse.Infrastracture.Data;
-using ECommerse.Core.Entities;
-using ECommerse.Infrastracture.Data;
-using ECommerse.Infrastracture.Interface;
+using ECommerce.Infrastructure.Data;
+using ECommerce.Core.Entities;
+using ECommerce.Infrastructure.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerse.Infrastracture.Logic
+namespace ECommerce.Infrastructure.Logic
 {
-    public class GenaricRepository<T> : IGenaricRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly StoreContext _context;
         private DbSet<T> _dbSet;
-        public GenaricRepository(StoreContext context)
+        public GenericRepository(StoreContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -53,7 +52,7 @@ namespace ECommerse.Infrastracture.Logic
         }
         private IQueryable<T>ApplySpecification(ISpacification<T> spec)
         {
-            return SpacificationEvaluatar<T>.GetQuery(_dbSet.AsQueryable(), spec);
+            return SpecificationEvaluatar<T>.GetQuery(_dbSet.AsQueryable(), spec);
         }
 
         public async Task<bool> Delete(int id)

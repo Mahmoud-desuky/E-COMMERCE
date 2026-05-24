@@ -1,7 +1,7 @@
 using System;
-using ECommerse.Core.Enums;
+using ECommerce.Core.Enums;
 
-namespace ECommerse.API.Models
+namespace ECommerce.API.Models
 {
     public class BaseResponse<T>
     {

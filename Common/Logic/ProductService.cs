@@ -1,14 +1,15 @@
-using ECommerse.Common.Interface;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Core.Entities;
-using ECommerse.Common.DTOs;
+using ECommerce.Common.Interface;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Infrastructure.Data;
 
-namespace ECommerse.Common.Logic
+namespace ECommerce.Common.Logic
 {
     public class ProductService : IProductService
     {
-        private readonly IGenaricRepository<Product> _productRepository;
-       public ProductService(IGenaricRepository<Product> productRepository)
+        private readonly IGenericRepository<Product> _productRepository;
+       public ProductService(IGenericRepository<Product> productRepository)
         {
             _productRepository = productRepository; 
         

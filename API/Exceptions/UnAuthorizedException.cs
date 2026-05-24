@@ -1,4 +1,4 @@
-namespace ECommerse.API.Exceptions
+namespace ECommerce.API.Exceptions
 {
     public class UnAuthorizedException : Exception
     {

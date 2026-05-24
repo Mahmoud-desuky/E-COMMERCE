@@ -1,10 +1,10 @@
 using System.Net;
 using System.Text.Json;
 using Azure.Core;
-using ECommerse.API.Models;
-using ECommerse.Core.Enums;
-using ECommerse.API.Exceptions;
-namespace ECommerse.API.Middleware
+using ECommerce.API.Models;
+using ECommerce.Core.Enums;
+using ECommerce.API.Exceptions;
+namespace ECommerce.API.Middleware
 {
     public class ExceptionHandlerMiddleware
     {

@@ -1,11 +1,11 @@
 using System.Text.Json;
-using ECommerse.Core.Entities;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Common.Interface;
+using ECommerce.Core.Entities;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Common.Interface;
 using StackExchange.Redis;
 
 
-namespace ECommerse.Common.Logic
+namespace ECommerce.Common.Logic
 {
     public class BasketRepository : IBasketRepository
     {

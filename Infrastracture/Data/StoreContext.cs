@@ -1,10 +1,10 @@
-﻿using ECommerse.Core.Entities;
+﻿using ECommerce.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 
-namespace ECommerse.Infrastracture.Data
+namespace ECommerce.Infrastructure.Data
 {
     public class StoreContext : DbContext
     {

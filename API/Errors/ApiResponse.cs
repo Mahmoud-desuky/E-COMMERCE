@@ -1,5 +1,5 @@
 
-namespace ECommerse.API.Errors
+namespace ECommerce.API.Errors
 {
     public class ApiResponse
     {

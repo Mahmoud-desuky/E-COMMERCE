@@ -1,8 +1,8 @@
 using AutoMapper;
-using ECommerse.Common.DTOs;
-using ECommerse.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Core.Entities;
 
-namespace ECommerse.API.Helpers
+namespace ECommerce.API.Helpers
 {
     public class MappingProfile :Profile
     {
