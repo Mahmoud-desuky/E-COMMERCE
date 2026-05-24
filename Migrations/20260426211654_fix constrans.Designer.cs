@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20260425163147_inital")]
-    partial class inital
+    [Migration("20260426211654_fix constrans")]
+    partial class fixconstrans
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,13 +235,13 @@ namespace ECommerce.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("ProductBrandId")
+                    b.Property<long?>("ProductBrandId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("ProductBrandId1")
                         .HasColumnType("int");
 
-                    b.Property<long>("ProductTypeId")
+                    b.Property<long?>("ProductTypeId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("ProductTypeId1")

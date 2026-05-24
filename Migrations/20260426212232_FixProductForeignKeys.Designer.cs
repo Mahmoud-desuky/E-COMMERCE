@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20260425163147_inital")]
-    partial class inital
+    [Migration("20260426212232_FixProductForeignKeys")]
+    partial class FixProductForeignKeys
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,16 +235,10 @@ namespace ECommerce.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("ProductBrandId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("ProductBrandId1")
+                    b.Property<int?>("ProductBrandId")
                         .HasColumnType("int");
 
-                    b.Property<long>("ProductTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("ProductTypeId1")
+                    b.Property<int?>("ProductTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -252,9 +246,9 @@ namespace ECommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductBrandId1");
+                    b.HasIndex("ProductBrandId");
 
-                    b.HasIndex("ProductTypeId1");
+                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
                 });
@@ -335,15 +329,11 @@ namespace ECommerce.Migrations
                 {
                     b.HasOne("ECommerce.Core.Entities.ProductBrand", "ProductBrand")
                         .WithMany()
-                        .HasForeignKey("ProductBrandId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductBrandId");
 
                     b.HasOne("ECommerce.Core.Entities.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductTypeId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductTypeId");
 
                     b.Navigation("ProductBrand");
 

@@ -1,12 +1,13 @@
 
-using ECommerse.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Core.Entities;
 
 
-namespace ECommerse.Common.Interface
+namespace ECommerce.Common.Interface
 {
     public interface IProductService
     {
-        public Task<Product> CreateProductAsync(Product product);
+        public Task<Product> CreateProductAsync(ProductDTO product);
       
     }
 }

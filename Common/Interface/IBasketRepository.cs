@@ -1,6 +1,6 @@
-using ECommerse.Core.Entities;
+using ECommerce.Core.Entities;
 
-namespace ECommerse.Common.Interface
+namespace ECommerce.Common.Interface
 {
     public interface IBasketRepository
     {

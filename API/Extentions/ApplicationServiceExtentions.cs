@@ -1,18 +1,18 @@
-using ECommerse.Common.Interface;
-using ECommerse.Common.Logic;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Infrastracture.Logic;
+using ECommerce.Common.Interface;
+using ECommerce.Common.Logic;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Infrastructure.Logic;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerse.API.Extections
+namespace ECommerce.API.Extections
 {
     public static class ApplicationServiceExtentions
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
             services.AddScoped<IBasketRepository,BasketRepository>();
-            services.AddScoped(typeof(IGenaricRepository<>),typeof(GenaricRepository<>));
+            services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             
             services.Configure<ApiBehaviorOptions>(options=>
             {

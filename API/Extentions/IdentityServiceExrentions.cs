@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Identity;
-using ECommerse.Core.Entities.Identity;
-using ECommerse.Infrastructure.Identity;
+using ECommerce.Core.Entities.Identity;
+using ECommerce.Infrastructure.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Infrastracture.Logic;
-namespace ECommerse.API.Extensions
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Infrastructure.Logic;
+namespace ECommerce.API.Extensions
 {
     public static class IdentityServiceExtensions
     {

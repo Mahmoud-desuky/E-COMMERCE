@@ -1,9 +1,9 @@
-using ECommerse.Core.Entities.Identity;
+using ECommerce.Core.Entities.Identity;
 
-namespace ECommerse.Infrastracture.Interface
+namespace ECommerce.Infrastructure.Interface
 {
     public interface ITokenService
     {
-        string CreateteToken(User user);
+        string CreateToken(User user);
     }
 }

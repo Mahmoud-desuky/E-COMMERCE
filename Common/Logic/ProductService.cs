@@ -1,20 +1,29 @@
-using ECommerse.Common.Interface;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Core.Entities;
+using ECommerce.Common.Interface;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Core.Entities;
+using ECommerce.Common.DTOs;
+using ECommerce.Infrastructure.Data;
 
-namespace ECommerse.Common.Logic
+namespace ECommerce.Common.Logic
 {
     public class ProductService : IProductService
     {
-        private readonly IGenaricRepository<Product> _productRepository;
-       public ProductService(IGenaricRepository<Product> productRepository)
+        private readonly IGenericRepository<Product> _productRepository;
+       public ProductService(IGenericRepository<Product> productRepository)
         {
             _productRepository = productRepository; 
         
        }
-         public async Task<Product> CreateProductAsync(Product product)
+         public async Task<Product> CreateProductAsync(ProductDTO product)
          {
-              return await _productRepository.AddAsync(product);
+            var newProduct = new Product
+            {
+                Name= product.Name,
+                Description= product.Description,
+                Price= product.Price,
+                PictureUrl= product.PictureUrl,
+            };
+              return await _productRepository.AddAsync(newProduct);
 
          }
     }

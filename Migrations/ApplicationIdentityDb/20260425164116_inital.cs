@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ECommerse.Migrations.ApplicationIdentityDb
+namespace ECommerce.Migrations.ApplicationIdentityDb
 {
     /// <inheritdoc />
     public partial class inital : Migration

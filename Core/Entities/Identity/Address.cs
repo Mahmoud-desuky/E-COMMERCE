@@ -1,4 +1,4 @@
-namespace ECommerse.Core.Entities.Identity
+namespace ECommerce.Core.Entities.Identity
 {
     public class Address
     {

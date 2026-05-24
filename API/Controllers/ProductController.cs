@@ -1,16 +1,21 @@
-﻿using ECommerse.Core.Entities;
-using ECommerse.Infrastracture.Interface;
+﻿using ECommerce.Core.Entities;
+using ECommerce.Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ECommerce.Common.DTOs;
+using ECommerce.Common.Interface;
 
-namespace ECommerse.API.Controllers
+namespace ECommerce.API.Controllers
 {
     public class ProductController : BaseApiController
     {
-        private readonly IGenaricRepository<Product> _productRepository;
-        public ProductController(IGenaricRepository<Product> productRepository)
+        private readonly IGenericRepository<Product> _productRepository;
+        private readonly IProductService _productService;
+        public ProductController(IGenericRepository<Product> productRepository,
+        IProductService productService)
             {
-            _productRepository = productRepository;
+                _productService=productService;
+                _productRepository = productRepository;
             }
         [HttpGet("id")]
         public async Task<IActionResult> GetById (int Id)
@@ -23,9 +28,10 @@ namespace ECommerse.API.Controllers
             return Ok(await _productRepository.GetAllAsync().ToListAsync());
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Product product)
+        public async Task<IActionResult> Create([FromBody] ProductDTO product)
         {
-            return Ok(await _productRepository.AddAsync(product));
+            
+            return Ok(await _productService.CreateProductAsync(product));
         }
 
     }

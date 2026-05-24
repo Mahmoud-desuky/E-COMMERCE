@@ -1,26 +1,29 @@
 using System.Reflection;
-using ECommerse.API.Extensions;
-using ECommerse.API.Middleware;
-using ECommerse.Infrastracture.Data;
-using ECommerse.Infrastracture.Interface;
-using ECommerse.Infrastracture.Logic;
-using ECommerse.Infrastructure.Identity;
-using ECommerse.Common.Interface;
-using ECommerse.Common.Logic;
+using ECommerce.API.Extensions;
+using ECommerce.API.Middleware;
+using ECommerce.Infrastructure.Data;
+using ECommerce.Infrastructure.Interface;
+using ECommerce.Infrastructure.Logic;
+using ECommerce.Infrastructure.Identity;
+using ECommerce.Common.Interface;
+using ECommerce.Common.Logic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
-using ECommerse.Core.Entities.Identity;
+using ECommerce.Core.Entities.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductTypeService,ProductTypeService>();
+
 
 
 // Add Scope of GenaricRepository
-builder.Services.AddScoped(typeof(IGenaricRepository<>),typeof(GenaricRepository<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 
 
 // Add services to the container.

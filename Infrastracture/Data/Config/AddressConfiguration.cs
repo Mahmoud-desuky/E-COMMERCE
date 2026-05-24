@@ -1,8 +1,8 @@
-using ECommerse.Core.Entities.Identity;
+using ECommerce.Core.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ECommerse.Infrastracture.Data.Config
+namespace ECommerce.Infrastructure.Data.Config
 {
     public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {

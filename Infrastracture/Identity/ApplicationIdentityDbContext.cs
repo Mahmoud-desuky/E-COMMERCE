@@ -1,11 +1,11 @@
 
-using ECommerse.Core.Entities.Identity;
+using ECommerce.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace ECommerse.Infrastructure.Identity
+namespace ECommerce.Infrastructure.Identity
 {
     public class ApplicationIdentityDbContext : IdentityDbContext<User>
     {

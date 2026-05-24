@@ -1,30 +1,30 @@
 using System.Linq;
-using ECommerse.Core.Entities;
+using ECommerce.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerse.Infrastracture.Data
+namespace ECommerce.Infrastructure.Data
 {
-    public class SpacificationEvaluatar<T> where T : BaseEntity
+    public class SpecificationEvaluatar<T> where T : BaseEntity
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpacification<T> spacification)
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpacification<T> specification)
         {
             var query = inputQuery;
             
-            if (spacification.Criteria != null)
+            if (specification.Criteria != null)
             {
-                query = query.Where(spacification.Criteria);
+                query = query.Where(specification.Criteria);
             }
            
-            if(spacification.OrderBy!=null)
+            if(specification.OrderBy!=null)
             {
-                query=query.OrderBy(spacification.OrderBy);
+                query=query.OrderBy(specification.OrderBy);
 
             }
-            if(spacification.OrderByDesc!=null)
+            if(specification.OrderByDesc!=null)
             {
-                query=query.OrderByDescending(spacification.OrderByDesc);
+                query=query.OrderByDescending(specification.OrderByDesc);
             }
-            query = spacification.Includes.Aggregate(query, (current, include) => current.Include(include));
+            query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
             return query;
         }
     }

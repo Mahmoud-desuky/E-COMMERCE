@@ -1,10 +1,10 @@
-﻿using ECommerse.Core.Entities;
+﻿using ECommerce.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ECommerse.Infrastracture.Data.Config;
+namespace ECommerce.Infrastructure.Data.Config;
 
-public class ProductConfigration : IEntityTypeConfiguration<Product>
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
