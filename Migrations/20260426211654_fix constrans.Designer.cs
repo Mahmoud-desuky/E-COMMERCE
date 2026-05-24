@@ -4,6 +4,7 @@ using ECommerse.Infrastracture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerse.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20260426211654_fix constrans")]
+    partial class fixconstrans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,10 +235,16 @@ namespace ECommerse.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductBrandId")
+                    b.Property<long?>("ProductBrandId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ProductBrandId1")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductTypeId")
+                    b.Property<long?>("ProductTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ProductTypeId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -243,9 +252,9 @@ namespace ECommerse.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductBrandId");
+                    b.HasIndex("ProductBrandId1");
 
-                    b.HasIndex("ProductTypeId");
+                    b.HasIndex("ProductTypeId1");
 
                     b.ToTable("Products");
                 });
@@ -326,11 +335,15 @@ namespace ECommerse.Migrations
                 {
                     b.HasOne("ECommerse.Core.Entities.ProductBrand", "ProductBrand")
                         .WithMany()
-                        .HasForeignKey("ProductBrandId");
+                        .HasForeignKey("ProductBrandId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ECommerse.Core.Entities.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductTypeId");
+                        .HasForeignKey("ProductTypeId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductBrand");
 

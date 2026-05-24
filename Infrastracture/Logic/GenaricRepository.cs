@@ -79,6 +79,5 @@ namespace ECommerse.Infrastracture.Logic
             _context.SaveChanges();
             return entity;
         }
-
     }
 }
