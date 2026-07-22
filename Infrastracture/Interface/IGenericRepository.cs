@@ -9,8 +9,8 @@ namespace ECommerce.Infrastructure.Interface
         Task<T> GetByIdAsync(int id);
         IQueryable<T> GetAllAsync();
         IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string IncludeProperties = "");
-        Task<T> GetEntityWithSpec(ISpacification<T> spec);
-        Task<IReadOnlyList<T>> ListAsync(ISpacification<T> spec);
+        Task<T> GetEntityWithSpec(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
         Task<bool> Delete(int id);
         Task<T> Update(T entity);
         Task<T> AddAsync(T entity);

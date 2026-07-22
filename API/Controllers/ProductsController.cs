@@ -7,11 +7,11 @@ using ECommerce.Common.Interface;
 
 namespace ECommerce.API.Controllers
 {
-    public class ProductController : BaseApiController
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IProductService _productService;
-        public ProductController(IGenericRepository<Product> productRepository,
+        public ProductsController(IGenericRepository<Product> productRepository,
         IProductService productService)
             {
                 _productService=productService;

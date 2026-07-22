@@ -1,8 +1,8 @@
 using Microsoft.OpenApi.Models;
 
-namespace ECommerce.API.Extections
+namespace ECommerce.API.Extension
 {
-    public static class SwaggerServiceExtentions
+    public static class SwaggerServiceExtensions
     {
         public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)  
         {

@@ -5,9 +5,9 @@ using ECommerce.Infrastructure.Logic;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.API.Extections
+namespace ECommerce.API.Extension
 {
-    public static class ApplicationServiceExtentions
+    public static class ApplicationServiceExtensions
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {

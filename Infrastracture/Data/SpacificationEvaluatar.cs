@@ -6,7 +6,7 @@ namespace ECommerce.Infrastructure.Data
 {
     public class SpecificationEvaluatar<T> where T : BaseEntity
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpacification<T> specification)
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> specification)
         {
             var query = inputQuery;
             

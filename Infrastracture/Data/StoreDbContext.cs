@@ -6,9 +6,9 @@ using StackExchange.Redis;
 
 namespace ECommerce.Infrastructure.Data
 {
-    public class StoreContext : DbContext
+    public class StoreDbContext : DbContext
     {
-        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
+        public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)
         {
 
         }
@@ -18,13 +18,14 @@ namespace ECommerce.Infrastructure.Data
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CustomerBasket> CustomerBaskets { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Apply configurations from config files
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreDbContext).Assembly);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

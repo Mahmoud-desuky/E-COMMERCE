@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerce.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(StoreDbContext))]
     [Migration("20260426212232_FixProductForeignKeys")]
     partial class FixProductForeignKeys
     {
