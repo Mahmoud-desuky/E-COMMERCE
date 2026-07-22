@@ -7,9 +7,9 @@ namespace ECommerce.API.Controllers
 {
     public class BuggyController : BaseApiController
     {
-        private readonly StoreContext _context;
+        private readonly StoreDbContext _context;
 
-        public BuggyController(StoreContext context)
+        public BuggyController(StoreDbContext context)
         {
             _context = context;
         }

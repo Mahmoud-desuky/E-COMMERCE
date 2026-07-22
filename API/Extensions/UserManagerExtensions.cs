@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Core.Entities.Identity;
 
-namespace E_COMMERSE.API.Extensions
+namespace ECommerce.API.Extensions
 {
     public static class UserManagerExtensions
     {

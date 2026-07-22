@@ -2,10 +2,10 @@ using System.Linq.Expressions;
 
 namespace ECommerce.Core.Entities
 {
-  public class BaseSpacification<T> : ISpacification<T>
+  public class BaseSpecification<T> : ISpecification<T>
   {
 
-        public BaseSpacification(Expression<Func<T, bool>> criteria)
+        public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;
         }

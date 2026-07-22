@@ -8,9 +8,9 @@ namespace ECommerce.Infrastructure.Logic
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly StoreContext _context;
+        private readonly StoreDbContext _context;
         private DbSet<T> _dbSet;
-        public GenericRepository(StoreContext context)
+        public GenericRepository(StoreDbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -42,15 +42,15 @@ namespace ECommerce.Infrastructure.Logic
             }
             return query;
         }
-        public async Task<T> GetEntityWithSpec(ISpacification<T> spec)
+        public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
-        public async Task<IReadOnlyList<T>> ListAsync(ISpacification<T> spec)
+        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
         }
-        private IQueryable<T>ApplySpecification(ISpacification<T> spec)
+        private IQueryable<T>ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluatar<T>.GetQuery(_dbSet.AsQueryable(), spec);
         }
@@ -60,8 +60,10 @@ namespace ECommerce.Infrastructure.Logic
             var find=_dbSet.FirstOrDefault(t=>t.Id==id);
             if(find==null)
                 return false;
-            _dbSet.Remove(find);
-            return true;
+              find.IsDeleted=true;
+              find.DeletedDate=DateTime.Now;
+              _context.SaveChangesAsync();
+              return true;
         }
 
         public async Task<T> Update(T entity)
@@ -69,7 +71,8 @@ namespace ECommerce.Infrastructure.Logic
             var exist = _dbSet.Find(entity.Id);
             if (exist == null)
                 return null;
-            _context.Entry(exist).CurrentValues.SetValues(entity);
+            _context.Entry(exist).State = EntityState.Modified;
+            _context.SaveChangesAsync();
             return entity;
         }
         public async Task<T> AddAsync(T entity)

@@ -10,5 +10,6 @@
         public ProductType ProductType { get; set; }
         public int? ProductBrandId { get; set; }
         public ProductBrand ProductBrand { get; set; }
+        public List<Photo> Photos { get; set; }
     }
 }
