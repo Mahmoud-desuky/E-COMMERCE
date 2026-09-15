@@ -19,17 +19,18 @@ namespace ECommerce.Common.Logic
             return await _database.KeyDeleteAsync(BasketId);
         }
 
-        public async Task<CustomerBasket> GetBasketAsync(string BasketId)
+        public async Task<CustomerBasket?> GetBasketAsync(string BasketId)
         {
-            var date = await _database.StringGetAsync(BasketId);
+            var data = await _database.StringGetAsync(BasketId);
             
-            return date.IsNullOrEmpty?null:JsonSerializer.Deserialize<CustomerBasket>(date);
+            return data.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(data);
         }
 
-        public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
+        public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
         {
-            var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
-            if (!created)
+            
+            var updated = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
+            if (!updated)
                 return null;
             return await GetBasketAsync(basket.Id);
         }

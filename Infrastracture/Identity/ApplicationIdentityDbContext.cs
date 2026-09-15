@@ -1,5 +1,6 @@
 
 using ECommerce.Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ECommerce.Infrastructure.Identity
 {
-    public class ApplicationIdentityDbContext : IdentityDbContext<User>
+    public class ApplicationIdentityDbContext : IdentityDbContext<User,IdentityRole<int>,int>
     {
         public ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options) : base(options)
         {
@@ -15,8 +16,6 @@ namespace ECommerce.Infrastructure.Identity
         }
 
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<User> Users { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -15,7 +15,7 @@ namespace ECommerce.Common.Registration
         public static IServiceCollection RegisterCommonServices(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductTypeService, ProductTypeService>();
@@ -31,10 +31,10 @@ namespace ECommerce.Common.Registration
 
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
-            var _Configuration = ConfigurationOptions.Parse(Configuration.GetConnectionString("Redis"), true);
-            return ConnectionMultiplexer.Connect(_Configuration);
+                var _Configuration = ConfigurationOptions.Parse(Configuration.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(_Configuration);
             });
-                        return services;
-                    }
-                }
+                      return services;
             }
+    }
+}

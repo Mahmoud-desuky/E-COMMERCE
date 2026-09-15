@@ -5,9 +5,9 @@ namespace ECommerce.API.Models
 {
     public class BaseResponse<T>
     {
-        public T Data;
-        public ResponseState State;
-        public string Message;
+        public T? Data { get; set; }
+        public ResponseState State { get; set; }
+        public string? Message { get; set; }
 
         public static BaseResponse<T> Success(T data,string message=""  )
         {

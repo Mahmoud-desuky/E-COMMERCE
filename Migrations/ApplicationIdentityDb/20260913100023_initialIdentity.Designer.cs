@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations.ApplicationIdentityDb
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20260425164116_inital")]
-    partial class inital
+    [Migration("20260913100023_initialIdentity")]
+    partial class initialIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,14 +53,18 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -73,9 +77,6 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -86,10 +87,6 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -125,9 +122,6 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -273,15 +267,15 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ECommerce.Core.Entities.Identity.User", b =>
+            modelBuilder.Entity("ECommerce.Core.Entities.Identity.Address", b =>
                 {
-                    b.HasOne("ECommerce.Core.Entities.Identity.Address", "Address")
-                        .WithOne("User")
-                        .HasForeignKey("ECommerce.Core.Entities.Identity.User", "AddressId")
+                    b.HasOne("ECommerce.Core.Entities.Identity.User", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("ECommerce.Core.Entities.Identity.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -335,9 +329,9 @@ namespace ECommerce.Migrations.ApplicationIdentityDb
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ECommerce.Core.Entities.Identity.Address", b =>
+            modelBuilder.Entity("ECommerce.Core.Entities.Identity.User", b =>
                 {
-                    b.Navigation("User")
+                    b.Navigation("Address")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

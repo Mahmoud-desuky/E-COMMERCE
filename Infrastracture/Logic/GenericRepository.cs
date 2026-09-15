@@ -61,8 +61,8 @@ namespace ECommerce.Infrastructure.Logic
             if(find==null)
                 return false;
               find.IsDeleted=true;
-              find.DeletedDate=DateTime.Now;
-              _context.SaveChangesAsync();
+              find.DeletedDate=DateTime.UtcNow;
+             await _context.SaveChangesAsync();
               return true;
         }
 
@@ -72,7 +72,7 @@ namespace ECommerce.Infrastructure.Logic
             if (exist == null)
                 return null;
             _context.Entry(exist).State = EntityState.Modified;
-            _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
             return entity;
         }
         public async Task<T> AddAsync(T entity)

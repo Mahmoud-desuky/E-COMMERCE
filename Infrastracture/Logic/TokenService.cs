@@ -47,6 +47,7 @@ namespace ECommerce.Infrastructure.Logic
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim("security_stamp",user.SecurityStamp)
             };
 
             var credintionals = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
@@ -54,7 +55,7 @@ namespace ECommerce.Infrastructure.Logic
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(Claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = credintionals,
                 Issuer = GetRequiredNonEmptyConfigValue(_config, "Token:Issuer"),
                 Audience = _config["Token:Audience"],

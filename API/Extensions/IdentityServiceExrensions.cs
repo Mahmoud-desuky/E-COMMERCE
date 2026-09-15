@@ -4,6 +4,7 @@ using ECommerce.Infrastructure.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 namespace ECommerce.API.Extensions
 {
     public static class IdentityServiceExtensions
@@ -18,15 +19,15 @@ namespace ECommerce.API.Extensions
             //builder.AddScoped<ITokenService, TokenService>();
             builder.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
             builder.AddSignInManager<SignInManager<User>>();
-            var tokenKey = config.GetValue<string>("Token:Key")
-                ?? config.GetValue<string>("JWT:Key");
-            var issuer = config.GetValue<string>("Token:Issuer")
-                ?? config.GetValue<string>("JWT:Issuer");
+            var tokenKey = config["Token:Key"];
+            var issuer = config["Token:Issuer"];
 
             if (string.IsNullOrWhiteSpace(tokenKey))
-            {
-                tokenKey = "DefaultDevelopmentTokenKey12345";
-            }
+                throw new InvalidOperationException("Token:Key is missing.");
+
+            if (string.IsNullOrWhiteSpace(issuer))
+                throw new InvalidOperationException("Token:Issuer is missing.");
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -39,7 +40,43 @@ namespace ECommerce.API.Extensions
                     ValidateIssuer = !string.IsNullOrWhiteSpace(issuer),
                     ValidateAudience = false
                 };
-            });
+
+                options.Events=new JwtBearerEvents
+                {
+                    OnTokenValidated=async context=>
+                    {
+                        var userManager =context.HttpContext.RequestServices.GetRequiredService<UserManager<User>>();
+                        
+                        var userId= context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+                        
+                        if(!int.TryParse(userId, out var id))
+                        {
+                            context.Fail("Invalid User Id");
+                            return;
+                        }
+
+                         var user = await userManager.FindByIdAsync(id.ToString());
+
+                        if (user == null)
+                        {
+                            context.Fail("User not found.");
+                            return;
+                        }
+
+                        var tokenStamp = context.Principal?
+                            .FindFirst("security_stamp")?.Value;
+
+                        if (tokenStamp != user.SecurityStamp)
+                        {
+                            context.Fail("Token is no longer valid.");
+                        }
+
+
+                    }
+                };
+            }
+        
+            );
             return services;
         }
       

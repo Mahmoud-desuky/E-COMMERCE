@@ -9,6 +9,7 @@ using ECommerce.API.Models;
 using ECommerce.Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using ECommerce.Common.DTOs.UserAccount;
 namespace E_COMMERSE.API.Controllers
 {
     [ApiController]
@@ -28,7 +29,7 @@ namespace E_COMMERSE.API.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<UserDTO>> GetCurrentUser()
+        public async Task<BaseResponse<UserDTO>> GetCurrentUser()
         {
             var email=HttpContext.User?.Claims?.FirstOrDefault(a=>a.Type==ClaimTypes.Email)?.Value;
 
@@ -38,44 +39,42 @@ namespace E_COMMERSE.API.Controllers
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
-                Address= user.Address.ToString(),
+                Address= user.Address?.ToString()??"",
                 FullName = user.UserName
             };
-            return Ok(BaseResponse<UserDTO>.Success(res));
+            return BaseResponse<UserDTO>.Success(res);
         }
         [HttpGet("emailexists")]
-        public async Task<ActionResult<bool>> CheckEmailExists([FromQuery] string email)
+        public async Task<BaseResponse<bool>> CheckEmailExists([FromQuery] string email)
         {
-            return await _userManager.FindByEmailAsync(email) != null;
+            return BaseResponse<bool>.Success(await _userManager.FindByEmailAsync(email) != null);
         }
 
-        
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
+        public async Task<BaseResponse<UserDTO>> Login(LoginDTO loginDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.UserName);
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null) 
-                throw new UnAuthorizedException();
-            
+                return BaseResponse<UserDTO>.Error("Invalid email or password");            
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (!result.Succeeded)
-                 throw new UnAuthorizedException();
+               return BaseResponse<UserDTO>.Error("Invalid email or password");            
             
             var res = new UserDTO
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
-                Address= user.Address.ToString(),
+                Address= user.Address?.ToString()??"",
                 FullName = user.UserName
             };
-            return Ok(BaseResponse<UserDTO>.Success(res));
+            return BaseResponse<UserDTO>.Success(res);
         }
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
+        public async Task<BaseResponse<UserDTO>> Register(RegisterDTO registerDto)
         {
             if (await _userManager.FindByEmailAsync(registerDto.Email) != null)
-                return BadRequest(new ApiResponse(400, "User with this email already exists"));
+                return BaseResponse<UserDTO>.Error("User with this email already exists");
             
             var user = new User
             {
@@ -85,15 +84,40 @@ namespace E_COMMERSE.API.Controllers
             
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) 
-                return BadRequest(new ApiResponse(400));
+                return BaseResponse<UserDTO>.Error(result.Errors.FirstOrDefault()?.Description ?? "User creation failed");
             var res = new UserDTO
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
-                Address= user.Address.ToString(),
+                Address= user.Address?.ToString()??"",
                 FullName = user.UserName
             };
-            return Ok(BaseResponse<UserDTO>.Success(res));
+            return BaseResponse<UserDTO>.Success(res);
+        }
+
+        [HttpPatch()]
+        public async Task<BaseResponse<UserDTO>>ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+
+            var userId = GetCustomerId();
+            var user = await _userManager.FindByIdAsync(userId);
+            var findUserByEmail=(changePasswordDto.Email!=null)? await _userManager.FindByEmailAsync(changePasswordDto.Email):null;
+            if (user == null&& findUserByEmail==null)
+                return BaseResponse<UserDTO>.Error("User not found");
+
+            var result = await _userManager.ChangePasswordAsync(user??findUserByEmail, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+            if (!result.Succeeded)
+                return BaseResponse<UserDTO>.Error(result.Errors.FirstOrDefault()?.Description ?? "Password change failed");
+
+            var res = new UserDTO
+            {
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user),
+                Address= user.Address?.ToString()??"",
+                FullName = user.UserName
+            };
+            return BaseResponse<UserDTO>.Success(res);
+            
         }
     }
 }

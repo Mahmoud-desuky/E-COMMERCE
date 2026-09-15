@@ -1,36 +1,83 @@
-using ECommerce.Core.Entities;
-using ECommerce.Infrastructure.Interface;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using ECommerce.Common.Interface;
-using Microsoft.AspNetCore.Components;
+using ECommerce.Core.Entities;
+using ECommerce.Core.Entities.Identity;
+using ECommerce.Infrastructure.Interface;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers
 {
+    [Authorize]
     public class BasketController : BaseApiController
     {
         private readonly IBasketRepository _basketRepository;
-
-        public BasketController(IBasketRepository basketRepository)
+        private readonly UserManager<User> _userRepository;
+        public BasketController(IBasketRepository basketRepository,
+        UserManager<User> userRepository)
         {
             _basketRepository = basketRepository;
+            _userRepository = userRepository;
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
-        {
-            var basket = await _basketRepository.GetBasketAsync(id);
-            return Ok(basket ?? new CustomerBasket(id));
-        }
-        [HttpPut]
-        public async Task<IActionResult> Update(CustomerBasket basket)
-        {
-            var updateBasket = await _basketRepository.UpdateBasketAsync(basket);
 
-            return Ok(updateBasket);
-        }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpGet()]
+        public async Task<ActionResult<CustomerBasket>> GetBasket()
         {
-            return Ok(_basketRepository.DeleteBasketAsync(id));
+            var customerId = GetCustomerId();
+            var findCurrentUser=_userRepository.FindByIdAsync(customerId);
+            if(findCurrentUser==null)
+            {
+                return Unauthorized("User is not active.");
+            }
+            var basket = await _basketRepository.GetBasketAsync(customerId);
+
+            if (basket == null)
+            {
+                return Ok(new CustomerBasket(customerId)
+                {
+                    CustomerId = customerId
+                });
+            }
+            return Ok(basket);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<CustomerBasket>> Update(CustomerBasket basket)
+        {
+            var customerId = GetCustomerId();
+            basket.CustomerId = customerId;
+            basket.Id = customerId;
+
+            var updatedBasket = await _basketRepository.UpdateBasketAsync(basket);
+
+            if (updatedBasket == null)
+                return BadRequest("Failed to update basket.");
+
+            return Ok(updatedBasket);
+        }
+
+        [HttpDelete()]
+        public async Task<IActionResult> Delete()
+        {
+            var customerId = GetCustomerId();
+            var basket = await _basketRepository.GetBasketAsync(customerId);
+
+            if (basket == null)
+                return NotFound();
+
+            if (basket.CustomerId != GetCustomerId())
+                return Unauthorized();
+
+            var deleted = await _basketRepository.DeleteBasketAsync(customerId);
+
+            if (!deleted)
+                return NotFound();
+
+            return NoContent();
+        }
+
+       
     }
 }
