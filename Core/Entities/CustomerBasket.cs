@@ -11,8 +11,8 @@ namespace ECommerce.Core.Entities
             Id=id;
         }
         public string Id { get; set; }
-
-        public string Code { get; set; }
+        public string? CustomerId { get; set; }
+        public string? Code { get; set; }
         public  List<BasketItem> Items { get; set; }=new List<BasketItem>();
 
     }

@@ -4,6 +4,7 @@ using ECommerce.API.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using ECommerce.Common.Registration;
+using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -15,7 +16,6 @@ builder.Services.RegisterCommonServices(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddIdentityServices(builder.Configuration);
 
@@ -39,9 +39,33 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
     });
 
- builder.Services.AddSwaggerGen(c =>
+ builder.Services.AddSwaggerGen(op =>
     {
-      c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce Application", Version = "v1" });
+      
+      op.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce Application", Version = "v1" });
+     op.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+     {
+        Name = "Authorization",
+         Type = SecuritySchemeType.Http,
+         Scheme = "Bearer",
+         BearerFormat = "JWT",
+         In = ParameterLocation.Header,
+         Description = "JWT Authorization header using the Bearer Token"
+     });
+      op.AddSecurityRequirement(new OpenApiSecurityRequirement
+      {
+          {
+              new OpenApiSecurityScheme
+              {
+                  Reference = new OpenApiReference
+                  {
+                      Type=ReferenceType.SecurityScheme,
+                      Id="Bearer"
+                  }
+              },
+              Array.Empty<string>()
+          }
+      });
     });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -63,6 +87,7 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

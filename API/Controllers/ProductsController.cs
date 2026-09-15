@@ -18,9 +18,9 @@ namespace ECommerce.API.Controllers
                 _productRepository = productRepository;
             }
         [HttpGet("id")]
-        public async Task<IActionResult> GetById (int Id)
+        public async Task<IActionResult> GetById (int id)
         {
-            return Ok(await _productRepository.GetByIdAsync(Id));
+            return Ok(await _productRepository.GetByIdAsync(id));
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
